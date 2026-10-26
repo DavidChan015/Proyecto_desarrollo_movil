@@ -9,6 +9,7 @@ export class User extends Model {
     public usuario!: string;
     public email!: string;
     public password_hash!: string;
+    public rol!: "censista" | "administrador";
 }
 
 User.init(
@@ -40,6 +41,11 @@ User.init(
         password_hash: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        rol: {
+            type: DataTypes.STRING(20),
+            allowNull: false,
+            defaultValue: "censista",
         }
     },
     {

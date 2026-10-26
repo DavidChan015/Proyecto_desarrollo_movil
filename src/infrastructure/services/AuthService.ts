@@ -41,6 +41,7 @@ export interface PublicUser {
   apellido: string;
   usuario: string;
   email: string;
+  rol: "censista" | "administrador";
   profile: PublicProfile | null;
 }
 
@@ -90,7 +91,7 @@ export class AuthService {
 
   async getProfile(userId: number): Promise<PublicUser | null> {
     const user = await User.findByPk(userId, {
-      attributes: ["id", "nombre", "apellido", "usuario", "email"],
+      attributes: ["id", "nombre", "apellido", "usuario", "email", "rol"],
     });
     if (!user) {
       return null;
@@ -103,6 +104,7 @@ export class AuthService {
       apellido: user.apellido,
       usuario: user.usuario,
       email: user.email,
+      rol: user.rol,
       profile: profile
         ? {
             id: profile.id,

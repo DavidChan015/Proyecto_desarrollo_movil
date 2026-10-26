@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { getJwtSecret } from "../../config/auth.js";
+import { User } from "../../infrastructure/models/UserModel.js";
+
+export type UserRole = "censista" | "administrador";
 
 declare global {
   namespace Express {
@@ -42,3 +45,26 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction): vo
     next(error);
   }
 };
+
+export const requireRole = (role: UserRole) =>
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    if (!req.authenticatedUserId) {
+      res.status(401).json({ error: "Autenticación requerida." });
+      return;
+    }
+
+    try {
+      const user = await User.findByPk(req.authenticatedUserId, { attributes: ["rol"] });
+      if (!user) {
+        res.status(401).json({ error: "El usuario autenticado ya no existe." });
+        return;
+      }
+      if (user.rol !== role) {
+        res.status(403).json({ error: "No tienes permisos para realizar esta acción." });
+        return;
+      }
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
