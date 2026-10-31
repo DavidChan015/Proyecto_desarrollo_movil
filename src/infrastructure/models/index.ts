@@ -1,6 +1,7 @@
 import { User } from "./UserModel.js";
 import { UserProfile } from "./UserProfileModel.js";
 import { Census } from "./CensusModel.js";
+import { LivenessSession } from "./LivenessSessionModel.js";
 
 export const registerModels = () => {
     User.hasOne(UserProfile, { foreignKey: "user_id", as: "profile", onDelete: "CASCADE" });
@@ -8,5 +9,5 @@ export const registerModels = () => {
     User.hasMany(Census, { foreignKey: "creado_por", as: "censuses", onDelete: "SET NULL" });
     Census.belongsTo(User, { foreignKey: "creado_por", as: "censista" });
 
-    return { User, UserProfile, Census };
+    return { User, UserProfile, Census, LivenessSession };
 };

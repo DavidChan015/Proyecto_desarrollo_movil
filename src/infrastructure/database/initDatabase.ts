@@ -11,7 +11,31 @@ export const initDatabase = async () => {
     const tables = await queryInterface.showAllTables();
     const userTableExists = tables.some((table) => table.toLowerCase() === "users");
     if (userTableExists) {
-        const userColumns = await queryInterface.describeTable("users");
+        let userColumns = await queryInterface.describeTable("users");
+        const legacyColumnNames: Array<[string, string]> = [
+            ["name", "nombre"],
+            ["username", "usuario"],
+            ["password", "password_hash"],
+            ["created_at", "createdAt"],
+        ];
+
+        for (const [legacyName, currentName] of legacyColumnNames) {
+            const hasLegacyColumn = legacyName in userColumns;
+            const hasCurrentColumn = currentName in userColumns;
+
+            if (hasLegacyColumn && hasCurrentColumn) {
+                throw new Error(
+                    `Both "users.${legacyName}" and "users.${currentName}" exist; resolve the duplicate columns before starting.`
+                );
+            }
+
+            if (hasLegacyColumn) {
+                await queryInterface.renameColumn("users", legacyName, currentName);
+                console.log(`Renamed "users.${legacyName}" to "users.${currentName}".`);
+                userColumns = await queryInterface.describeTable("users");
+            }
+        }
+
         if (!("rol" in userColumns)) {
             await queryInterface.addColumn("users", "rol", {
                 type: DataTypes.STRING(20),

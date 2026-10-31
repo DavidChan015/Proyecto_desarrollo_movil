@@ -7,13 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch main.ts",
     "build": "tsc",
-    "start": "node dist/main.js"
+    "start": "node dist/main.js",
+    "ampx:sandbox": "ampx sandbox"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/client-rekognition": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
@@ -25,6 +29,9 @@
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.0.0",
+    "@aws-amplify/backend-cli": "^1.0.0",
+    "@types/aws-lambda": "^8.10.0",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -34,6 +41,7 @@
     "@types/sequelize": "^4.28.20",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "aws-cdk-lib": "^2.0.0"
   }
 }

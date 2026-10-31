@@ -54,7 +54,9 @@ export const sequelize = new Sequelize(
 
 export const connectDB = async () => {
     try {
-      await ensureDatabaseExists();
+      if (process.env.DB_CREATE_IF_MISSING !== "false") {
+        await ensureDatabaseExists();
+      }
         await sequelize.authenticate();
       await sequelize.query('CREATE SCHEMA IF NOT EXISTS public');
       await sequelize.query('SET search_path TO public');

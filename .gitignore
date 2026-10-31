@@ -1,5 +1,8 @@
 node_modules/
 dist/
+.amplify/
+amplify_outputs.json
 .env
 .env.*
 !.env.example
+!.env.production.example

@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CreateFaceLivenessSessions",
+      "Effect": "Allow",
+      "Action": "rekognition:CreateFaceLivenessSession",
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadFaceLivenessResults",
+      "Effect": "Allow",
+      "Action": "rekognition:GetFaceLivenessSessionResults",
+      "Resource": "*"
+    },
+    {
+      "Sid": "CompareProfileAndLivenessFaces",
+      "Effect": "Allow",
+      "Action": "rekognition:CompareFaces",
+      "Resource": "*"
+    }
+  ]
+}
